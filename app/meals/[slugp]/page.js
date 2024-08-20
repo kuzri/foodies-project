@@ -1,9 +1,35 @@
-export default function BlogPage(props){
-    return <main>
-        <h1>the BlogPost1111111111</h1>
-        <p>{props.params.slugp}</p>
-        <p>{props.params.slugp}</p>
-        <p>{props.params.slugp}</p>
-        {console.log(props)}
-    </main>
+import { getMeal } from '@/lib/meals'
+import classes from './page.module.css'
+import Image from 'next/image'
+import { notFound } from 'next/navigation'
+
+export default function BlogPage({params}){
+    const meal = getMeal(params.slugp)
+
+    if(!meal){
+        // close error page
+        notFound();
+    }
+
+    // 줄바꿈 \n -> <br/>
+    meal.instructions = meal.instructions.replace(/\n/g, '<br/>');
+    return (
+        <>
+            <header className={classes.header}>
+                <div className={classes.image}>
+                    <Image src={meal.image} alt={meal.title} fill/>
+                </div>
+                <div className={classes.headerText}>
+                    <h1>{meal.title}</h1>
+                    <p className={classes.creator}>
+                    by <a href={`mail to : ${meal.creator_mail}`}>{meal.creator}</a>
+                    </p>
+                    <p className={classes.summary}> {meal.summary} </p>
+                </div>
+                </header>
+            <main>
+                <p className={classes.instructions} dangerouslySetInnerHTML={{__html:meal.instructions}}></p>
+            </main>
+        </>
+    )
 }
