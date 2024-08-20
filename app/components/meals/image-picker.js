@@ -44,6 +44,7 @@ export default function ImagePicker({label, name}) {
                 onChange={handleImageChange}
                 required
             />
+            
             <button className={classes.button} type='button' onClick={handlePickClick}>
                 pick an image
             </button>
