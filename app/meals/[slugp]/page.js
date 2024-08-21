@@ -3,8 +3,24 @@ import classes from './page.module.css'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
 
+export async function generateMetadata({params}){
+    const meal = getMeal(params.slugp)
+
+    
+    if(!meal){
+        // close error page
+        notFound();
+    }
+    return {
+        title: meal.title,
+        description: meal.summary
+    }
+}
+
 export default function BlogPage({params}){
     const meal = getMeal(params.slugp)
+
+
 
     if(!meal){
         // close error page
